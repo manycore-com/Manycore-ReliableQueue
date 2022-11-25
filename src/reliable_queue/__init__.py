@@ -25,4 +25,10 @@ class ReliableQueue:
         :param timeout: If 0, wait until data is available, if timeout>0, wait max timeout seconds else return None.
         :return: Optional[bytes]
         """
-        return self._redis.blpop(self._queue_name, timeout)
+        result = self._redis.blpop(self._queue_name, timeout)
+        if result is None:
+            return None
+        return result[1]
+
+    def is_ram_empty(self):
+        return not self._redis.exists(self._queue_name)
