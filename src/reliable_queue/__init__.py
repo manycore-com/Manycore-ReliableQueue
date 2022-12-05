@@ -6,9 +6,9 @@ import redis
 class ReliableQueue:
 
     # For first version, just assume local redis
-    def __init__(self, queue_name: str):
+    def __init__(self, queue_name: str, redis_hostname: str = "localhost", redis_port: int = 6379):
         self._queue_name = queue_name
-        self._redis = redis.Redis()
+        self._redis = redis.Redis(host=redis_hostname, port=redis_port)
 
     def push(self, data: bytes):
         """
