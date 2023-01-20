@@ -17,6 +17,10 @@ class ReliableQueue:
         self.timeout_push = 300  # Try to push for max 5min
         self._shutdown = False
 
+    def close(self):
+        self._shutdown = True
+        self._redis.close()
+
     def set_shutdown(self, shutdown):
         self._shutdown = shutdown
 
