@@ -27,6 +27,9 @@ class ReliableQueue:
     def get_queue_name(self):
         return self._queue_name
 
+    def get_queue_len(self) -> int:
+        return self._redis.llen(self._queue_name)
+
     def push(self, data: bytes):
         """
         Note: redis.exceptions.ResponseError: WRONGTYPE Operation against a key holding the wrong kind of value
