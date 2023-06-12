@@ -13,6 +13,8 @@ class ReliableQueue:
     # For first version, just assume local redis
     def __init__(self, queue_name: str, redis_hostname: str = "localhost", redis_port: int = 6379):
         self._queue_name = queue_name
+        self._redis_hostname = redis_hostname
+        self._redis_port = redis_port
         self._redis = redis.Redis(host=redis_hostname, port=redis_port)
         self.timeout_push = 300  # Try to push for max 5min
         self._shutdown = False
@@ -104,4 +106,7 @@ class ReliableQueue:
             if self._shutdown:
                 return True
             time.sleep(1)
+
+    def __str__(self):
+        return "ReliableQueue[%s:%d, queue=%s, shutdown=%s]" % (self._redis_hostname, self._redis_port, self._queue_name, self._shutdown)
 
